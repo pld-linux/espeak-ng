@@ -1,15 +1,21 @@
 Summary:	eSpeak NG - multi-lingual software speech synthesizer
 Summary(pl.UTF-8):	eSpeak NG - wielojęzyczny programowy syntezator mowy
 Name:		espeak-ng
-Version:	1.49.1
+Version:	1.49.2
 Release:	1
 License:	GPL v3+
 Group:		Applications/Sound
 #Source0Download: https://github.com/espeak-ng/espeak-ng/releases
-Source0:	https://github.com/espeak-ng/espeak-ng/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	ce76fc552fe32087987d4c09354e4cb7
+# 1.49.2 release tarball is broken
+#Source0:	https://github.com/espeak-ng/espeak-ng/releases/download/%{version}/%{name}-%{version}.tar.gz
+# so use archive
+Source0:	https://github.com/espeak-ng/espeak-ng/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	8cc43f3f6ecc339e712a1648598f4f78
 URL:		https://github.com/espeak-ng/espeak-ng/
+BuildRequires:	autoconf >= 2.63
+BuildRequires:	automake >= 1:1.11
 BuildRequires:	gcc >= 5:3.2
+BuildRequires:	libtool >= 2:2
 BuildRequires:	pcaudiolib-devel
 BuildRequires:	ronn
 BuildRequires:	sonic-devel
@@ -86,8 +92,16 @@ Reguły składni Vima dla plików eSpeaka.
 %setup -q
 
 %build
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
-	--disable-silent-rules
+	--disable-silent-rules \
+	--with-extdict-ru \
+	--with-extdict-zh \
+	--with-extdict-zhy
 
 # parallel build fails on data
 %{__make} -j1
@@ -101,7 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 	vim_addons_syntaxdir=%{_datadir}/vim/vimfiles/syntax
 
 # obsoleted by pkg-config
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libespeak-ng.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libespeak-ng*.la
 # allow coexistence with espeak
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libespeak.la
 %{__rm} -r $RPM_BUILD_ROOT%{_includedir}/espeak
@@ -116,7 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG.md COPYING.{BSD2,IEEE} ChangeLog README.md docs/{*.html,images}
+%doc CHANGELOG.md COPYING.{BSD2,IEEE,UCD} README.md docs/{*.md,images,languages}
 %attr(755,root,root) %{_bindir}/espeak
 %attr(755,root,root) %{_bindir}/espeak-ng
 %attr(755,root,root) %{_bindir}/speak
@@ -129,16 +143,20 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libespeak-ng.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libespeak-ng.so.1
+%attr(755,root,root) %{_libdir}/libespeak-ng-test.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libespeak-ng-test.so.1
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libespeak-ng.so
+%attr(755,root,root) %{_libdir}/libespeak-ng-test.so
 %{_includedir}/espeak-ng
 %{_pkgconfigdir}/espeak-ng.pc
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libespeak-ng.a
+%{_libdir}/libespeak-ng-test.a
 
 %files -n vim-syntax-espeak
 %defattr(644,root,root,755)
