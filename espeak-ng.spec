@@ -1,15 +1,16 @@
 Summary:	eSpeak NG - multi-lingual software speech synthesizer
 Summary(pl.UTF-8):	eSpeak NG - wielojęzyczny programowy syntezator mowy
 Name:		espeak-ng
-Version:	1.50
+Version:	1.51
 Release:	1
 License:	GPL v3+
 Group:		Applications/Sound
 #Source0Download: https://github.com/espeak-ng/espeak-ng/releases
-Source0:	https://github.com/espeak-ng/espeak-ng/releases/download/%{version}/%{name}-%{version}.tgz
-# Source0-md5:	85422fd7ccebd32ef4d92e6719efd8be
+# broken release tarball (many missing files)
+#Source0:	https://github.com/espeak-ng/espeak-ng/releases/download/%{version}/%{name}-%{version}.tar.gz
 # so use archive
-#Source0:	https://github.com/espeak-ng/espeak-ng/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/espeak-ng/espeak-ng/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	00852ea6657bef6c9fcf5d9ce908be7b
 URL:		https://github.com/espeak-ng/espeak-ng/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -19,8 +20,8 @@ BuildRequires:	pcaudiolib-devel
 BuildRequires:	ronn
 BuildRequires:	sonic-devel
 Requires:	%{name}-libs = %{version}-%{release}
-Obsoletes:	espeak
-Obsoletes:	speak
+Obsoletes:	espeak < 1.49
+Obsoletes:	speak < 1.16
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,7 +44,7 @@ MBROLA, aby brzmiał bardziej naturalnie.
 Summary:	eSpeak shared libraries
 Summary(pl.UTF-8):	eSpeak - biblioteki
 Group:		Libraries
-Obsoletes:	speak-libs
+Obsoletes:	speak-libs < 1.16
 
 %description libs
 eSpeak shared libraries.
@@ -88,7 +89,7 @@ Vim syntax rules for eSpeak files.
 Reguły składni Vima dla plików eSpeaka.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 %build
 %{__libtoolize}
@@ -129,7 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG.md COPYING.{BSD2,IEEE,UCD} README.md docs/{*.md,images,languages,phonemes}
+%doc CHANGELOG.md COPYING.{BSD2,UCD} README.md docs/{*.md,images,languages,phonemes}
 %attr(755,root,root) %{_bindir}/espeak
 %attr(755,root,root) %{_bindir}/espeak-ng
 %attr(755,root,root) %{_bindir}/speak
