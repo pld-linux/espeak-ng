@@ -1,16 +1,13 @@
 Summary:	eSpeak NG - multi-lingual software speech synthesizer
 Summary(pl.UTF-8):	eSpeak NG - wielojęzyczny programowy syntezator mowy
 Name:		espeak-ng
-Version:	1.51
+Version:	1.51.1
 Release:	1
 License:	GPL v3+
 Group:		Applications/Sound
-#Source0Download: https://github.com/espeak-ng/espeak-ng/releases
-# broken release tarball (many missing files)
-#Source0:	https://github.com/espeak-ng/espeak-ng/releases/download/%{version}/%{name}-%{version}.tar.gz
-# so use archive
+#Source0Download: https://github.com/espeak-ng/espeak-ng/tags
 Source0:	https://github.com/espeak-ng/espeak-ng/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	00852ea6657bef6c9fcf5d9ce908be7b
+# Source0-md5:	15a6eb54e117348821f06ae039ac1a18
 URL:		https://github.com/espeak-ng/espeak-ng/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
