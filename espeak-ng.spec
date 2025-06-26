@@ -1,13 +1,13 @@
 Summary:	eSpeak NG - multi-lingual software speech synthesizer
 Summary(pl.UTF-8):	eSpeak NG - wielojęzyczny programowy syntezator mowy
 Name:		espeak-ng
-Version:	1.51.1
+Version:	1.52.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Sound
 #Source0Download: https://github.com/espeak-ng/espeak-ng/tags
 Source0:	https://github.com/espeak-ng/espeak-ng/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	15a6eb54e117348821f06ae039ac1a18
+# Source0-md5:	b445d9bf5a8ed9eceeb7c8edf5945641
 URL:		https://github.com/espeak-ng/espeak-ng/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -96,9 +96,9 @@ Reguły składni Vima dla plików eSpeaka.
 %{__automake}
 %configure \
 	--disable-silent-rules \
+	--with-extdict-cmn \
 	--with-extdict-ru \
-	--with-extdict-zh \
-	--with-extdict-zhy
+	--with-extdict-yue
 
 # parallel build fails on data
 %{__make} -j1
@@ -127,7 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG.md COPYING.{BSD2,UCD} README.md docs/{*.md,images,languages,phonemes}
+%doc ChangeLog.md COPYING.{BSD2,UCD} README.md docs/{*.md,images,languages,phonemes}
 %attr(755,root,root) %{_bindir}/espeak
 %attr(755,root,root) %{_bindir}/espeak-ng
 %attr(755,root,root) %{_bindir}/speak
